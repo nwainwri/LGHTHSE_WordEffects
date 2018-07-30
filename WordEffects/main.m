@@ -28,6 +28,10 @@ int main(int argc, const char * argv[]) {
             
             // print NSString object
             NSLog(@"Input was: %@", inputString);
+            
+            // print out memory address used
+            NSLog(@"Memory Address was: %p", &inputString);
+
         
         
         } // end while
