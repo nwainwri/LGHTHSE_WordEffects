@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "extras.h"
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
@@ -15,7 +15,9 @@ int main(int argc, const char * argv[]) {
             
             int userChoice = 0;
             char userStringChoice[255];
-            NSMutableString *canadaString = [[NSMutableString alloc] initWithString:@""];
+            // NSString *canadaString = @""; // used to be ->> NSMutableString *canadaString = [[NSMutableString alloc] initWithString:@""];
+
+            int wordLength = 0;
             
             printf("Input your choice (number): ");
             fgets(userStringChoice, 255, stdin);
@@ -36,7 +38,7 @@ int main(int argc, const char * argv[]) {
             printf("Your string is %s\n", inputChars);
             
             // convert char array to an NSString object
-            NSString *inputString = [NSString stringWithUTF8String:inputChars];
+            NSMutableString *inputString = [NSMutableString stringWithUTF8String:inputChars]; //orginally just a NSString
             
             // print NSString object
             //NSLog(@"Input was: %@", inputString);
@@ -47,9 +49,7 @@ int main(int argc, const char * argv[]) {
             char lastCharacter = inputChars[strlen(inputChars)-1];
             
             NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"]; // make a set of chars
-            
             set = [set invertedSet]; // now invert that set to have anything BUT numbers
-            
             NSRange range = [inputString rangeOfCharacterFromSet:set]; // take character set, then search said input for any matching chars
             
             switch (userChoice) {
@@ -77,11 +77,13 @@ int main(int argc, const char * argv[]) {
                     break;
                
                 case 4:
-                    // Canadianize
-                    [canadaString appendFormat:@"%@, eh?", inputString];
-                    NSLog(@"Canadian: %@", canadaString);
-                    break;
-                    
+                    {
+                        // Canadianize
+                        NSString *middleGround = @"";
+                        middleGround = [inputString stringByAppendingString:@", eh?"];
+                        NSLog(@"Canadian: %@", middleGround);
+                        break;
+                    }
                 case 5:
                     // Respond
                     if (lastCharacter == '?')
@@ -99,12 +101,20 @@ int main(int argc, const char * argv[]) {
                     NSLog (@"De-Space-It: %@", [inputString stringByReplacingOccurrencesOfString:@" " withString:@"-"]);
                     break;
                     
+                case 7:
+                    // string length
+                    wordLength = [inputString length];
+                    NSLog(@"Length of String: %i", wordLength);
+                    break;
+                
+                case 8:
+                    NSLog(@"String, without any punctuation: %@", [inputString removeNonLetters]);
+                    break;
+                    
                 default:
                     break;
+                    
             }
-
-        
-        
         } // end while
     }
     return 0;
